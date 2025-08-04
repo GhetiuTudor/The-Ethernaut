@@ -1,0 +1,18 @@
+The token contract inherits ERC20, for this reason it implements all the mandatory functions 
+from ERC20 interface. When overriding the transfer function it uses a modifier to restrict me
+from selling my tokens in the next 10 years. 
+
+But transfer() is not the only function that can be used to transfer funds - there is also the transferFrom() function that 
+enables a spender to spend funds on behalf of the owner. This function is not overridden - the token inherits the standard
+implementation which does not include the modifier, therefore totally unrestricted.
+
+To call that function from a smart contract I have to first call the approve() function from the EOA address in order 
+to approve the contract to spend my tokens. 
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+To exploit this I first created a smart contract that calls the transferFrom() function and deployed it on the testnet (bypassTransfer.sol)
+
+Then, in the web console I called the approve() fct from my EOA, to approve the deployed contract to spend my funds  (approve.js)
+
+Finally I called the function bypass() from my contract that made the transfer efficiently bypassing the 10 year lock period. 
